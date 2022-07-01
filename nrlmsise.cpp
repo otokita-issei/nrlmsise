@@ -43,51 +43,13 @@ double Tz(double z){
   Input.g_lat = 50; /* [deg] 緯度 */
   Input.g_long = 135;/* [deg] 経度、西経は負 */
 
-//   Input.alt = 32.5; /* [km] 高度 */
-//   gtd7(&Input, &Flag, &Output);
-//   for(int i = 0; i < 9; i++){
-//     std::cout << i << " " << Output.d[i] << std::endl;
-//   }
-//   for(int i = 0; i < 2; i++){
-//     std::cout << i << " " << Output.t[i] << std::endl;
-//   }
 
-  //std::ofstream ofs("msise.dat");
   for(int i = 0; i < z; i++){
     Input.alt = double(z);
     gtd7(&Input, &Flag, &Output);
 
-    /*
-     * 出力 (指定された高度)
-     *      d[0] - He 数密度 [cm^{-3}]
-     *      d[1] - O 数密度 [cm^{-3}]
-     *      d[2] - N2 数密度 [cm^{-3}]
-     *      d[3] - O2 数密度 [cm^{-3}]
-     *      d[4] - Ar 数密度 [cm^{-3}]                       
-     *      d[5] - 全質量密度 [g/cm^3] [includes d[8] in td7d]
-     *      d[6] - H 数密度 [cm^{-3}]
-     *      d[7] - N 数密度 [cm^{-3}]
-     *      d[8] - Anomalous oxygen 数密度 [cm^{-3}]
-     *      t[0] - [K] EXOSPHERIC TEMPERATURE (外気圏温度)
-     *      t[1] - [K] 温度
-     */
-
-    // double n = 0.0;
-    // for(int j = 0; j < 5; j++){
-    //   n += Output.d[j];
-    // }
-    // n += Output.d[6] + Output.d[7]; /* [cm^{-3}] */
-
-    // double p = n*1e6 * kB * Output.t[1];
-
     return Output.t[1];
-
-    //  ofs << i << " "
-    //      << Output.t[1] << " "
-    //      << n << " "
-    //      << p << std::endl;
    }
-   //ofs.close();
 }
 
 double Ns(double z){
@@ -130,8 +92,6 @@ double Ns(double z){
       n += Output.d[j];
     }
     n += Output.d[6] + Output.d[7]; /* [cm^{-3}] */
-
-    //double p = n*1e6 * kB * Output.t[1];
 
     return n;
 

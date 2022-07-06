@@ -1,45 +1,18 @@
 PREFIX = $(HOME)
-# suffix for library. Use the versioni of Ubuntu
-LIB_SUFFIX = _20
-
 LIB_DIR = $(PREFIX)/lib
 INC_DIR = $(PREFIX)/include
 
-TARGET = libnrlmsise$(LIB_SUFFIX).so
-
-HEADERS = nrlmsise-00.h
-OBJS = nrlmsise-00.o nrlmsise-00_data.o
-OPTS = -O3 -Wall -fPIC -I.
+OBJS = main.o nrlmsise.o nz_1.o integral.o beta.o
+HEADERS = optical_depth.h nrlmsise-00.h
 LIB_OPTS = -Wl,-R$(LIB_DIR)
 
 .PHONY: all clean install
 
-all: $(TARGET)
-
-$(TARGET): $(OBJS)
-	g++ -shared -o $@ $(OBJS)
-
-nrlmsise-00.o: nrlmsise-00.c $(HEADERS)
-	g++ -c $< $(OPTS)
-
-nrlmsise-00_data.o: nrlmsise-00_data.c $(HEADERS)
-	g++ -c $< $(OPTS)
-
-install: $(TARGET)
-	@if [ ! -d $(LIB_DIR) ]; then \
-	  mkdir -p $(LIB_DIR); \
-	fi
-	cp $(TARGET) $(LIB_DIR)
-	@if [ ! -d $(INC_DIR) ]; then \
-	  mkdir -p $(INC_DIR); \
-	fi
-	cp $(HEADERS) $(INC_DIR)
-
-test_nrlmsise: main.o nrlmsise.o nz_1.o integral.o beta.o  
-	g++ -o $@ main.o nrlmsise.o nz_1.o integral.o beta.o $(LIB_OPTS) -L$(LIB_DIR) -lnrlmsise$(LIB_SUFFIX)
+main: $(OBJS)
+	g++ -o $@ $(OBJS) $(LIB_OPTS) -L$(LIB_DIR) -lnrlmsise_20
 
 %.o: %.cpp $(HEADERS)
-	g++ -c $< -Wall -O3
+	g++ -c $< -Wall -O3 -I(INC_DIR)
 
 clean:
-	rm -f *.o $(TARGET) test_nrlmsise
+	rm -f *.o $(TARGET) main

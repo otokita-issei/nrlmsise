@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include "nrlmsise-00.h"
+#include "optical_depth.h"
 
 double integral(double(*beta)(double), double xmin, double xmax, int N){     
         double dx = 0.0;

@@ -2,15 +2,13 @@
 #include <cmath>
 #include <fstream>
 
-#include "nrlmsise-00.h"
+#include "optical_depth.h"
 
 /* NRL-MSISE00の入出力用 */
 using Ap_array = struct ap_array;
 using NRLMSISE_Input = struct nrlmsise_input;
 using NRLMSISE_Flag = struct nrlmsise_flags;
 using NRLMSISE_Output = struct nrlmsise_output;
-
-//constexpr double BOLTZMANN_CONSTANT { 1.38064852e-23 };
 
 double Tz(double z){
   //constexpr double kB { BOLTZMANN_CONSTANT };
@@ -44,12 +42,14 @@ double Tz(double z){
   Input.g_long = 135;/* [deg] 経度、西経は負 */
 
 
-  for(int i = 0; i < z; i++){
-    Input.alt = double(z);
+  //for(int i = 0; i < z; i++){
+    double z_km = z*1.0e-3;
+    Input.alt = double(z_km);
     gtd7(&Input, &Flag, &Output);
 
     return Output.t[1];
-   }
+
+   //}
 }
 
 double Ns(double z){
@@ -83,19 +83,21 @@ double Ns(double z){
   Input.ap = 4.0; /* 磁気指数。標準的な値 */
   Input.ap_a = &Xp; /* 同上 */
 
-  for(int i = 0; i < 110; i++){
-    Input.alt = double(z);
+  //for(int i = 0; i < z; i++){
+    double z_km = z*1.0e-3;
+    Input.alt = double(z_km);
     gtd7(&Input, &Flag, &Output);
 
     double n = 0.0;
     for(int j = 0; j < 5; j++){
       n += Output.d[j];
     }
-    n += Output.d[6] + Output.d[7]; /* [cm^{-3}] */
+    n += Output.d[6] + Output.d[7]; 
+    n = n*1.0e6;
 
     return n;
 
-   }
+   //}
 }
 
 double pz(double z){
@@ -129,8 +131,9 @@ double pz(double z){
   Input.ap = 4.0; /* 磁気指数。標準的な値 */
   Input.ap_a = &Xp; /* 同上 */
 
-  for(int i = 0; i < 110; i++){
-    Input.alt = double(z);
+  //for(int i = 0; i < z; i++){
+    double z_km = z*1.0e-3;
+    Input.alt = double(z_km);
     gtd7(&Input, &Flag, &Output);
 
     double n = 0.0;
@@ -139,9 +142,45 @@ double pz(double z){
     }
     n += Output.d[6] + Output.d[7]; /* [cm^{-3}] */
 
-    double p = n*1e6 * kB * Output.t[1];
+    double p = n*1.0e6 * kB * Output.t[1];
 
     return p;
 
-   }
+   //}
 }
+
+// double Tz(double z){   /*気温の関数Tz*/
+//     double Tz;
+//     double z_km = z*1.0e-3;
+//     if(0.0 <= z_km && z_km <= 11.0){
+//           Tz = 273.15 + 15.04 - 6.49*z_km;  
+//     }   
+//     if(11.0 <= z_km && z_km <= 25.0){
+//          Tz = 273.15 - 56.46;
+//     }
+//     if(25.0 <= z_km && z_km <= 45.0){
+//          Tz = 273.15 - 131.21 + 2.99*z_km;
+//     }
+//     return Tz;
+// }
+
+// double pz(double z){   /*気圧の関数pz*/
+//     double pz;
+//     double z_km = z*1.0e-3;
+//     if(0.0 <= z_km && z_km <= 11.0){  
+//           pz = 101290*pow((Tz(z)/288.08), 5.256); 
+//     }   
+//     if(11.0 <= z_km && z_km <= 25.0){
+//          pz = 22650*exp(1.73-0.157*z_km); 
+//     }
+//     if(25.0 <= z_km && z_km <= 45.0){
+//          pz = 2488*pow((Tz(z)/216.6), -11.388);
+//     }
+//     return pz;
+// }
+
+// double Ns(double z){
+//   double Ns;
+//   Ns = 2.547e25;
+//   return Ns;
+// }

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include "nrlmsise-00.h"
+#include "optical_depth.h"
 
 double nz_1(double z){
     double nz_1;

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include "nrlmsise-00.h"
+#include "optical_depth.h"
 
 double beta(double z){     
     double Nz, Sig;

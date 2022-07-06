@@ -16,8 +16,7 @@
  * updated releases of this package.
  */
 
-//constexpr double Ns {2.547e25};     /*数密度*/
-constexpr double Lam {0.38e-6};        /*波長*/
+constexpr double Lam {0.47e-6};        /*波長*/
 constexpr double Lam_um {Lam*1.0e6};  
 constexpr double ns_1 {(8060.51 + 2480990/(132.274 - 1/Lam_um/Lam_um) + 17445.7/(39.32957 - 1/Lam_um/Lam_um))*1.0e-8};       /*真空中の屈折率(n-1)*/
 constexpr double z {110.0e3};    /*高度*/
@@ -29,6 +28,8 @@ double Ns(double z);
 double nz_1(double z);
 double beta(double z);
 double integral(double(*beta)(double), double xmin, double xmax, int N);
+
+constexpr double BOLTZMANN_CONSTANT { 1.38064852e-23 };
 
 /* ------------------------------------------------------------------- */
 /* ------------------------------- INPUT ----------------------------- */

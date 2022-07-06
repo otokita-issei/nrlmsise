@@ -5,3 +5,4 @@ test_nrlmsise
 *.patch
 *.md
 *.dat
+main

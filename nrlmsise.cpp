@@ -4,6 +4,8 @@
 
 #include "optical_depth.h"
 
+//constexpr double BOLTZMANN_CONSTANT { 1.38064852e-23 };
+
 /* NRL-MSISE00の入出力用 */
 using Ap_array = struct ap_array;
 using NRLMSISE_Input = struct nrlmsise_input;
@@ -180,7 +182,7 @@ double pz(double z){
 // }
 
 // double Ns(double z){
-//   double Ns;
-//   Ns = 2.547e25;
-//   return Ns;
+//   double N = 2.547e25;
+//   n = N*pz(z)*288.15/101325/Tz(z); 
+//   return n;
 // }

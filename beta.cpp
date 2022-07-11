@@ -3,7 +3,7 @@
 #include <cmath>
 #include "optical_depth.h"
 
-// constexpr double Lam {0.47e-6};        /*波長*/
+constexpr double Lam {0.47e-6};        /*波長*/
 // double Tz(double z);
 // double pz(double z);
 // double Ns(double z);

@@ -10,8 +10,8 @@ LIB_OPTS = -Wl,-R$(LIB_DIR)
 main: $(OBJS)
 	g++ -o $@ $(OBJS) $(LIB_OPTS) -L$(LIB_DIR) -lnrlmsise_20
 
-%.o: %.cpp optical_depth.h nrlmsise-00.h
-	g++ -c $< -Wall -O3 -I(INC_DIR)
+%.o: %.cpp optical_depth.h
+	g++ -c $< -Wall -O3 -I$(INC_DIR)
 
 clean:
 	rm -f *.o main
